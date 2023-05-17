@@ -1,9 +1,9 @@
 @page "/"
-    @layout MainLayout
     @inject HttpClient HttpClient
     @inject NavigationManager NavigationManager
     @using BlazingPizza.Services
     @inject OrderState OrderState
+
     <div class="main">
       <h1>Blazing Pizzas</h1>
       <ul class="pizza-cards">
@@ -22,32 +22,18 @@
         }
       </ul>
     </div>
+
     @if (OrderState.ShowingConfigureDialog)
     {
-        <ConfigurePizzaDialog
-      Pizza="OrderState.ConfiguringPizza"
-      OnCancel="OrderState.CancelConfigurePizzaDialog"
-      OnConfirm="OrderState.ConfirmConfigurePizzaDialog" />
+        <ConfigurePizzaDialog Pizza="OrderState.ConfiguringPizza" />
     }
 
-    @code {
+ @code {
     List<PizzaSpecial> specials = new List<PizzaSpecial>();
 
     protected override async Task OnInitializedAsync()
     {
         specials = await HttpClient.GetFromJsonAsync<List<PizzaSpecial>>(NavigationManager.BaseUri + "specials");
     }
-
-
-      void ShowConfigurePizzaDialog(PizzaSpecial special)
-      {
-          ConfiguringPizza = new Pizza()
-          {
-              Special = special,
-              SpecialId = special.Id,
-              Size = Pizza.DefaultSize
-          };
-
-          showingConfigureDialog = true;
-      }
-    }
+}
+    
