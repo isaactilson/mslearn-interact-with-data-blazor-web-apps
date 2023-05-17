@@ -3,7 +3,6 @@
     @inject NavigationManager NavigationManager
     @using BlazingPizza.Services
     @inject OrderState OrderState
-
     <div class="main">
       <h1>Blazing Pizzas</h1>
       <ul class="pizza-cards">
@@ -29,14 +28,13 @@
     }
 
     @code {
-      List<PizzaSpecial> specials = new();
-      
-      
+    List<PizzaSpecial> specials = new List<PizzaSpecial>();
 
-      protected override async Task OnInitializedAsync()
-      {
-          specials = await HttpClient.GetFromJsonAsync<List<PizzaSpecial>>(NavigationManager.BaseUri + "specials");
-      }
+    protected override async Task OnInitializedAsync()
+    {
+        specials = await HttpClient.GetFromJsonAsync<List<PizzaSpecial>>(NavigationManager.BaseUri + "specials");
+    }
+}
 
       
       {
